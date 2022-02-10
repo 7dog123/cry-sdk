@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-RUN mkdir ndk-crystax-r10-build
+RUN mkdir -p ndk-crystax-r10-build
 
 COPY ndk-crystax-r10-build.sh ndk-crystax-r10-build
 
@@ -19,7 +19,7 @@ RUN export OUT_DIR_COMMON_BASE=/ndk-crystax-r10-build/crystax
 RUN mkdir bin && export PATH=bin:$PATH
 
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > bin/repo && \
-    chmod a+x bin/repo && mkdir ndk_repo cd ndk_repo && repo init -u https://android.googlesource.com/platform/manifest && \
+    chmod a+x bin/repo && mkdir -p ndk_repo cd ndk_repo && repo init -u https://android.googlesource.com/platform/manifest && \
     repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1 && \
     repo sync
 
