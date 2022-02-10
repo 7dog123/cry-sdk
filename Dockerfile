@@ -1,19 +1,4 @@
-FROM ubuntu:20.04
-
-ARG NDK_VERSION=r19
-ARG SDK_PLATFORM=android-21
-ARG SDK_BUILD_TOOLS=28.0.3
-ARG SDK_PACKAGES="tools platform-tools"
-
-ENV DEBIAN_FRONTEND noninteractive
-ENV ANDROID_HOME /opt/android-sdk
-ENV ANDROID_SDK_ROOT ${ANDROID_HOME}
-ENV ANDROID_NDK_ROOT /opt/android-ndk
-ENV ANDROID_NDK_HOST linux-x86_64
-ENV ANDROID_NDK_PLATFORM android-21
-ENV PATH ${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-ENV PATH=$PATH:$JAVA_HOME/bin
+FROM ubuntu:14.04
 
 RUN mkdir ndk-crystax-r10-build
 
@@ -21,27 +6,24 @@ COPY ndk-crystax-r10-build.sh ndk-crystax-r10-build
 
 WORKDIR /ndk-crystax-r10-build
 
-RUN dpkg --add-architecture i386 && apt-get -qq update && apt-get -qq dist-upgrade && \
-    apt-get -y install git-core gnupg flex file mingw-w64 pbzip2 wine-stable && \
-    apt-get -y install bison build-essential zip curl zlib1g-dev openjdk-8-jdk && \
-    apt-get -y install gcc-multilib g++-multilib libncurses5 && \
-    apt-get -y install libncurses5-dev x11proto-core-dev libx11-dev && \
-    apt-get -y install libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig && \
+RUN echo "Installing required packages (Ubuntu 14.04)" && \
+    dpkg --add-architecture i386 && apt-get -qq update && apt-get -qq dist-upgrade && \
+    apt-get -y install git-core gnupg flex bison gperf build-essential \
+    zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
+    lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+    libgl1-mesa-dev libxml2-utils xsltproc unzip wget && \
     apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386
 
-RUN curl -Lo /tmp/sdk-tools.zip 'https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip' \
-    && mkdir -p ${ANDROID_HOME} \
-    && unzip /tmp/sdk-tools.zip -d ${ANDROID_HOME} \
-    && rm -f /tmp/sdk-tools.zip \
-    && yes | sdkmanager --licenses && sdkmanager --verbose "platforms;${SDK_PLATFORM}" "build-tools;${SDK_BUILD_TOOLS}" ${SDK_PACKAGES}
+RUN echo "Configuring USB Access" && \
+    wget -S -O - http://source.android.com/source/51-android.rules | sed "s/<username>/$USER/" | tee >/dev/null /etc/udev/rules.d/51-android.rules; udevadm control --reload-rules
 
-# Download & unpack android NDK & remove any platform which is not 
-RUN mkdir /tmp/android \
-    && curl -Lo /tmp/android/ndk.zip "https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-linux-x86_64.zip" \
-    && unzip /tmp/android/ndk.zip -d /tmp \
-    && mv /tmp/android-ndk-${NDK_VERSION} ${ANDROID_NDK_ROOT} \
-    && cd / \
-    && rm -rf /tmp/android \
-    && find ${ANDROID_NDK_ROOT}/platforms/* -maxdepth 0 ! -name "$ANDROID_NDK_PLATFORM" -type d -exec rm -r {} +
+RUN export OUT_DIR_COMMON_BASE=/ndk-crystax-r10-build/crystax
+
+RUN mkdir bin && export PATH=bin:$PATH
+
+RUN curl https://storage.googleapis.com/git-repo-downloads/repo > bin/repo && \
+    chmod a+x bin/repo && mkdir ndk_repo cd ndk_repo && repo init -u https://android.googlesource.com/platform/manifest && \
+    repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1 && \
+    repo sync
 
 RUN chmod 755 ndk-crystax-r10-build.sh && ./ndk-crystax-r10-build.sh
