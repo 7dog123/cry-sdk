@@ -14,9 +14,6 @@ RUN echo "Installing required packages (Ubuntu 14.04)" && \
     libgl1-mesa-dev libxml2-utils xsltproc unzip wget && \
     apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386
 
-RUN echo "Configuring USB Access" && \
-    wget -S -O - http://source.android.com/source/51-android.rules | sed "s/<username>/$USER/" | tee >/dev/null /etc/udev/rules.d/51-android.rules; udevadm control --reload-rules
-
 RUN export OUT_DIR_COMMON_BASE=/ndk-crystax-r10-build/crystax
 
 RUN mkdir bin && export PATH=bin:$PATH
