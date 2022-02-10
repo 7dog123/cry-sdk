@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:15.04
 
 RUN mkdir -p ndk-crystax-r10-build
 
@@ -11,7 +11,7 @@ RUN echo "Installing required packages (Ubuntu 14.04)" && \
     apt-get -y install git-core gnupg flex bison gperf build-essential \
     zip curl zlib1g-dev gcc-multilib g++-multilib \
     x11proto-core-dev libx11-dev ccache \
-    libgl1-mesa-dev libxml2-utils xsltproc unzip wget git python gnupg python-kerberos  && \
+    libgl1-mesa-dev libxml2-utils xsltproc unzip wget git python3 gnupg python-kerberos  && \
     apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386
 
 RUN export OUT_DIR_COMMON_BASE=/ndk-crystax-r10-build/crystax
