@@ -2,8 +2,8 @@
 
 version=10.3.2
 srcdir=/tmp/crystax-ndk-sources-$USER
-incremental=yes
-verbose=yes
+incremental=no
+verbose=no
 git_fetch=autodetect
 
 usage()
@@ -274,7 +274,6 @@ run rm -Rf /tmp/ndk-$USER || exit 1
 
 export ANDROID_NDK_ROOT=$srcdir/platform/ndk
 export NDK_LOGFILE=/tmp/ndk-$USER/build.log
-export SYSROOT=$srcdir/platforms/android-*/arch*
 
 echo "=== Building CrystaX NDK ..."
 run ./build/tools/make-release.sh \
