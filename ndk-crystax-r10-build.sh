@@ -2,8 +2,8 @@
 
 version=10.3.2
 srcdir=/tmp/crystax-ndk-sources-$USER
-incremental=no
-verbose=no
+incremental=yes
+verbose=yes
 git_fetch=autodetect
 
 usage()
