@@ -14,6 +14,6 @@ RUN apt update && \
     apt-get -y install libncurses5 libncurses5-dev x11proto-core-dev && \
     apt-get -y install libgl1-mesa-dev libxml2-utils xsltproc && \
     apt-get -y install unzip fontconfig libx11-dev && \
-    apt-get -y install gcc-8-locales python3-genshi python3-lxml-dbg
+    apt-get -y install gcc-*-locales python3-genshi python3-lxml-dbg
 
 RUN chmod 755 ndk-crystax-r10-build.sh && ./ndk-crystax-r10-build.sh
