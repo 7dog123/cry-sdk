@@ -12,7 +12,8 @@ ENV ANDROID_NDK_ROOT /opt/android-ndk
 ENV ANDROID_NDK_HOST linux-x86_64
 ENV ANDROID_NDK_PLATFORM android-21
 ENV PATH ${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
-
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH=$PATH:$JAVA_HOME/bin
 
 RUN mkdir ndk-crystax-r10-build
 
@@ -22,7 +23,7 @@ WORKDIR /ndk-crystax-r10-build
 
 RUN dpkg --add-architecture i386 && apt-get -qq update && apt-get -qq dist-upgrade && \
     apt-get -y install git-core gnupg flex file mingw-w64 pbzip2 wine-stable && \
-    apt-get -y install bison build-essential zip curl zlib1g-dev && \
+    apt-get -y install bison build-essential zip curl zlib1g-dev openjdk-8-jdk && \
     apt-get -y install gcc-multilib g++-multilib libncurses5 && \
     apt-get -y install libncurses5-dev x11proto-core-dev libx11-dev && \
     apt-get -y install libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig && \
