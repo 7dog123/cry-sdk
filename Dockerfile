@@ -17,7 +17,7 @@ RUN echo "Installing required packages (Ubuntu 18.04)" && \
     apt-get -y autoclean
 
 RUN mkdir /tmp/android \
-    && wget -C "https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${NDK_HOST}.zip" \
+    && wget --continue "https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${NDK_HOST}.zip" \
     && unzip /tmp/android/android-ndk-${NDK_VERSION}-${NDK_HOST}.zip -d /tmp \
     && mv /tmp/android-ndk-${NDK_VERSION} ${NDK_ROOT} \
     && cd / \
