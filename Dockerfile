@@ -2,8 +2,7 @@ FROM ubuntu:18.04
 
 RUN mkdir -p ndk-crystax-r10-build
 
-RUN export NDK_VERSION=r10e && export NDK_ROOT /opt/android-ndk && export NDK_HOST linux-x86_64 && \
-    export NDK_PLATFORM android-21
+RUN export NDK_VERSION=r10e && export NDK_ROOT=/opt/android-ndk && export NDK_HOST=linux-x86_64 && export NDK_PLATFORM=android-21
 
 COPY ndk-crystax-r10-build.sh ndk-crystax-r10-build
 
