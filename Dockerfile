@@ -2,24 +2,28 @@ FROM ubuntu:18.04
 
 RUN mkdir -p ndk-crystax-r10-build
 
+RUN export NDK_VERSION=r10e && export NDK_ROOT /opt/android-ndk && export NDK_HOST linux-x86_64 && \
+    export NDK_PLATFORM android-21
+
 COPY ndk-crystax-r10-build.sh ndk-crystax-r10-build
 
 WORKDIR /ndk-crystax-r10-build
 
-RUN echo "Installing required packages (Ubuntu 14.04)" && \
+RUN echo "Installing required packages (Ubuntu 18.04)" && \
     dpkg --add-architecture i386 && apt-get -qq update && apt-get -qq dist-upgrade && \
     apt-get -y install git-core gnupg flex bison gperf build-essential \
-    zip curl zlib1g-dev gcc-multilib g++-multilib \
-    x11proto-core-dev libx11-dev ccache \
-    libgl1-mesa-dev libxml2-utils xsltproc unzip wget git python3 gnupg python-kerberos  && \
-    apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386
+    zip wget zlib1g-dev gcc-multilib g++-multilib \
+    x11proto-core-dev libx11-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip && \
+    apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386 && \
+    apt-get -y autoclean
 
-RUN export OUT_DIR_COMMON_BASE=/ndk-crystax-r10-build/crystax
+RUN mkdir /tmp/android \
+    && wget -C "https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-${NDK_HOST}.zip" \
+    && unzip /tmp/android/android-ndk-${NDK_VERSION}-${NDK_HOST}.zip -d /tmp \
+    && mv /tmp/android-ndk-${NDK_VERSION} ${NDK_ROOT} \
+    && cd / \
+    && rm -rf /tmp/android \
+    && find ${NDK_ROOT}/platforms/* -maxdepth 0 ! -name "$NDK_PLATFORM" -type d -exec rm -r {} +
 
-RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo && \
-    chmod a+x /usr/bin/repo && mkdir -p ndk_repo cd ndk_repo && \
-    repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1 \
-    --depth=1 --groups=all,-notdefault,-device,-linux,-x86,-mips,-arm,-arm64,-mips64,-x86_64,-exynos5,mako && \
-    repo sync
 
 RUN chmod 755 ndk-crystax-r10-build.sh && ./ndk-crystax-r10-build.sh
