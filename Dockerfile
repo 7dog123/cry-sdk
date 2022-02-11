@@ -43,6 +43,6 @@ RUN mkdir /tmp/android \
     && find ${ANDROID_NDK_ROOT}/platforms/* -maxdepth 0 ! -name "$ANDROID_NDK_PLATFORM" -type d -exec rm -r {} +
 
 # Reconfigure locale
-RUN locale-gen en_US.UTF-8 && dpkg-reconfigure local
+RUN locale-gen en_US.UTF-8 && dpkg-reconfigure locales
 
 RUN chmod 755 ndk-crystax-r10-build.sh && ./ndk-crystax-r10-build.sh
