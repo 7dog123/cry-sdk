@@ -15,7 +15,7 @@ RUN echo "Installing required packages (Ubuntu 18.04)" && \
     dpkg --add-architecture i386 && apt-get -qq update && apt-get -qq dist-upgrade && \
     apt-get -y install git-core gnupg flex bison gperf build-essential \
     zip curl zlib1g-dev gcc-multilib g++-multilib \
-    x11proto-core-dev libx11-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip && \
+    x11proto-core-dev libx11-dev ccache file libgl1-mesa-dev libxml2-utils xsltproc unzip && \
     apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386 && \
     apt-get -y autoclean
 
