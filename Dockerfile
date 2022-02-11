@@ -17,7 +17,7 @@ RUN echo "Installing required packages (Ubuntu 18.04)" && \
     apt-get -y autoclean
 
 RUN mkdir /tmp/android \
-    && curl -Lo /tmp/android/ndk.zip "https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip" \
+    && wget -o /tmp/android/ndk.zip "https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip" \
     && unzip /tmp/android/ndk.zip -d /tmp \
     && mv /tmp/android-ndk-${NDK_VERSION} ${NDK_ROOT} \
     && cd / \
