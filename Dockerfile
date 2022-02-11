@@ -17,7 +17,7 @@ RUN echo "Installing required packages (Ubuntu 14.04)" && \
 RUN export OUT_DIR_COMMON_BASE=/ndk-crystax-r10-build/crystax
 
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo && \
-    chmod a+x /usr/bin/repo && mkdir -p ndk_repo cd ndk_repo && repo init -u https://android.googlesource.com/platform/manifest && \
+    chmod a+x /usr/bin/repo && mkdir -p ndk_repo cd ndk_repo && \
     repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1 \
     --depth=1 --groups=all,-notdefault,-device,-linux,-x86,-mips,-arm,-arm64,-mips64,-x86_64,-exynos5,mako && \
     repo sync
