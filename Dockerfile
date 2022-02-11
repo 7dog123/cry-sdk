@@ -12,6 +12,8 @@ ENV ANDROID_NDK_ROOT /opt/android-ndk
 ENV ANDROID_NDK_HOST linux-x86_64
 ENV ANDROID_NDK_PLATFORM android-21
 ENV PATH ${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
+ENV export JAVA_HOME usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH $JAVA_HOME/bin:$PATH
 
 COPY ndk-crystax-r10-build.sh ndk-crystax-r10-build
 
@@ -20,7 +22,7 @@ WORKDIR /ndk-crystax-r10-build
 RUN echo "Installing required packages (Ubuntu 18.04)" && \
     dpkg --add-architecture i386 && apt-get -qq update && apt-get -qq dist-upgrade && \
     apt-get -y install git-core gnupg flex bison gperf build-essential \
-    zip curl zlib1g-dev gcc-multilib g++-multilib \
+    zip curl zlib1g-dev gcc-multilib g++-multilib openjdk-8-jdk \
     x11proto-core-dev libx11-dev ccache file libgl1-mesa-dev libxml2-utils xsltproc unzip && \
     apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386 libz1:i386 && \
     apt-get -y autoclean
