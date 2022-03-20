@@ -1,5 +1,7 @@
 FROM ubuntu:latest
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update && \
     apt-get -y install git-core gnupg flex bison build-essential zip \
     curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 libncurses5 \
