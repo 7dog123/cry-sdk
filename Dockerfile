@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:latest
 
 RUN apt-get update && \
     apt-get -y install git-core gnupg flex bison build-essential zip \
@@ -10,6 +10,9 @@ RUN apt-get update && \
 RUN mkdir -p ndk-crystax-r8-build
 
 WORKDIR /ndk-crystax-r8-build
+
+RUN ln -s /usr/bin/python2 /usr/bin/python
+RUN ln -s /usr/bin/python2-config /usr/bin/python-config
 
 RUN curl -o /usr/bin/repo \
     https://commondatastorage.googleapis.com/git-repo-downloads/repo
