@@ -20,5 +20,9 @@ RUN curl -o /usr/bin/repo \
     https://commondatastorage.googleapis.com/git-repo-downloads/repo
 RUN chmod a+x /usr/bin/repo
 
-RUN wget -O - https://www.crystax.net/download/ndk-crystax-r8-build.sh | /bin/sh
+RUN wget https://www.crystax.net/download/ndk-crystax-r8-build.sh
+
+RUN sed -i 's/git:/https:/g'
+
+RUN bash ndk-crystax-r8-build.sh
 
